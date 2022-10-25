@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePhotoRequest;
 use App\Http\Requests\UpdatePhotoRequest;
+use App\Models\Info;
 use App\Models\Photo;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PhotoController extends Controller
 {
@@ -15,7 +18,7 @@ class PhotoController extends Controller
      */
     public function index()
     {
-        //
+        return view('photo.index');
     }
 
     /**
@@ -77,10 +80,21 @@ class PhotoController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Photo  $photo
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Photo $photo)
     {
-        //
+        DB::beginTransaction();
+        try {
+            //1. Remove Form Storage
+            Storage::delete('public/' . $photo->name);
+            //2. Remove Form Database
+            $photo->delete();
+            DB::commit();
+            return redirect()->back()->with('toast', Info::showToast('error', ' Photo is deleted successfully'));
+        }catch (\Exception $e){
+            DB::rollBack();
+            return redirect()->back()->with('toast', Info::showToast('error', ' Photo is deleted successfully'));
+        }
     }
 }
