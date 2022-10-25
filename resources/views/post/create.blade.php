@@ -54,7 +54,7 @@
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label for="description" class="form-label">Post Title</label>
+                    <label for="description" class="form-label">Post Description</label>
                     <textarea id="description"
                               class="form-control @error('description') is-invalid @enderror()"
                               rows="10"

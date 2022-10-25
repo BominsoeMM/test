@@ -35,7 +35,7 @@
                             form="postUpdateForm"
                             type="text">
                         @foreach(\App\Models\Category::all() as $category)
-                            <option form="postUpdateForm" value="{{$category->id}} {{$category->id == old('category',$post->category) ? 'selected' : ''}}"  >{{$category->title}}</option>
+                            <option value="{{$category->id}} {{$category->id == old('category') ? 'selected' : ''}}"  >{{$category->title}}</option>
                         @endforeach
 
                     </select>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="description" class="form-label">Post Title</label>
+                    <label for="description" class="form-label">Post Description</label>
                     <textarea id="description"
                               class="form-control @error('description') is-invalid @enderror()"
                               rows="10"
